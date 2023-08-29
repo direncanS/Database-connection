@@ -1,0 +1,68 @@
+<div>
+  <a style="font-size:30px" [routerLink]="['../login']">Login</a>
+  <mat-card>
+    <mat-card-title>Register</mat-card-title>
+
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="handleRegister()">
+
+        <mat-form-field style="margin-bottom: 6px;">
+          <input type="text"  matInput placeholder="Username" formControlName="username">
+
+          <mat-error  *ngIf="username?.touched && username?.hasError('required')">
+            Username is required.</mat-error>
+          <mat-error  class="error-field-form" *ngIf="username?.touched && username?.hasError('minlength')">
+            Must be a minimum of 6 characters.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field style="margin-bottom: 6px;">
+          <input type="email" matInput placeholder="Email" formControlName="email">
+          <!-- Here we can display error messages/hints for the user, if one of the Validators adds an error to the email
+           with the .touched check we only display the hints if the input was touched by the users -->
+          <mat-error *ngIf="email?.touched && email?.hasError('required')">
+           Email is required</mat-error>
+          <mat-error *ngIf="email?.touched && email?.hasError('email')">
+            Please enter a valid e-mail address</mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field style="margin-bottom: 6px;">
+          <input type="password" #passwordInput matInput placeholder="Password" formControlName="password">
+          <div class="input-group-addon">
+            <span   #passwordEye (click)="onChangePasswordEye()" class="material-symbols-outlined ey-input">
+              {{passwordIcon}}
+            </span>
+          </div>
+          <mat-error  *ngIf="password?.touched && password?.hasError('required')">
+            Password is required.</mat-error>
+          <mat-error  class="error-field-form" *ngIf="password?.touched && password?.hasError('minlength')">
+            Must be a minimum of 8 characters.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field style="">
+          <input #matchPassword type="password" matInput placeholder="Password Confirmation"
+            formControlName="passwordConfirm">
+          <div class="input-group-addon">
+
+            <span   #matchPasswordEye (click)="onChangeMatchPasswordEye()" class="material-symbols-outlined ey-input">
+              {{passwordMatchIcon}}
+            </span>
+          </div>
+          <mat-error *ngIf="passwordConfirm?.touched && passwordConfirm?.hasError('required')">
+            Password Repeat Required.</mat-error>
+          <mat-error  class="error-field-form" *ngIf="passwordConfirm?.touched && passwordConfirm?.hasError('minlength')">
+            Must be a minimum of 8 characters.</mat-error>
+        </mat-form-field>
+
+        <mat-error class="error-field-form" *ngIf="passwordConfirm?.dirty && this.registerForm.hasError('passwordsNotMatching')">
+          Passwords do not match!</mat-error>
+
+        <div class="button">
+          <button type="submit" mat-button [disabled]="!registerForm.valid">Register</button>
+        </div>
+      </form>
+    </mat-card-content>
+
+  </mat-card>
+  <app-loading *ngIf="showLoading"></app-loading>
+</div>

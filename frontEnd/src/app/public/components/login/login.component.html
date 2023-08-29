@@ -1,0 +1,39 @@
+<div>
+  <a style="font-size:30px" [routerLink]="['../register']">Register</a>
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
+
+        <mat-form-field style="margin-bottom: 6px;">
+          <input type="text"  matInput placeholder="Username" formControlName="username">
+
+          <mat-error  *ngIf="username?.touched && username?.hasError('required')">
+            Username is required.</mat-error>
+          <mat-error  class="error-field-form" *ngIf="username?.touched && username?.hasError('minlength')">
+            Must be a minimum of 6 characters.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="password" #passwordInput matInput placeholder="Şifre" formControlName="password">
+          <div class="input-group-addon">
+            <span  #passwordEye (click)="onChangePasswordEye()" class="material-symbols-outlined  ey-input ">
+              {{currentIcon}}
+            </span>
+          </div>
+          <mat-error *ngIf="password?.touched && password?.hasError('required')">
+            Password is required</mat-error>
+
+          <mat-error *ngIf="password?.touched && password?.hasError('minlength')">
+            Must be a minimum of 8 characters.</mat-error>
+        </mat-form-field>
+
+        <div class="button">
+          <button type="submit" mat-button [disabled]="!loginForm.valid">Login</button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <app-loading *ngIf="showLoading"></app-loading>
+</div>
